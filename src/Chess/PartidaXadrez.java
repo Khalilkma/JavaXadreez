@@ -24,10 +24,14 @@ public class PartidaXadrez {
         return mat;
     }
 
+    private void placeNewPiece(char coluna, int linha, ChessPiece piece) {
+        tabuleiro.placePiece(piece, new ChessPosition(coluna, linha).toPosition());
+    }
+
     private void setupInicial(){
-        tabuleiro.placePiece(new Torre(tabuleiro, Cor.BRANCO), new Position(1, 2));
-        tabuleiro.placePiece(new Rei(tabuleiro, Cor.PRETO), new Position(4, 0));
-        tabuleiro.placePiece(new Rei(tabuleiro, Cor.BRANCO), new Position(4, 7));
+        placeNewPiece('b', 6, new Torre(tabuleiro, Cor.BRANCO));
+        placeNewPiece('e', 8, new Rei(tabuleiro, Cor.PRETO));
+        placeNewPiece('e', 1, new Rei(tabuleiro, Cor.BRANCO));
 
     }
 }
