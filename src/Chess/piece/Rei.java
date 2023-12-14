@@ -11,6 +11,6 @@ public class Rei extends ChessPiece {
 
     @Override
     public String toString(){
-        return String.valueOf('♔');
+        return "K";
     }
 }

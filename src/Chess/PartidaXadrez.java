@@ -2,6 +2,7 @@ package Chess;
 
 import Chess.piece.Rei;
 import Chess.piece.Torre;
+import JogoTabuleiro.Piece;
 import JogoTabuleiro.Position;
 import JogoTabuleiro.Tabuleiro;
 
@@ -22,6 +23,27 @@ public class PartidaXadrez {
             }
         }
         return mat;
+    }
+
+    public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+        Position source = sourcePosition.toPosition();
+        Position target = targetPosition.toPosition();
+        validateSourcePosition(source);
+        Piece capturedPiece = makeMove(source, target);
+        return (ChessPiece) capturedPiece;
+    }
+
+    private Piece makeMove(Position source, Position target) {
+        Piece p = tabuleiro.removePiece(source);
+        Piece capturedPiece = tabuleiro.removePiece(target);
+        tabuleiro.placePiece(p, target);
+        return capturedPiece;
+    }
+
+    private void validateSourcePosition(Position position) {
+        if(!tabuleiro.thereIsAPiece(position)){
+            throw new ChessException("Não tem uma peça na posição inicial");
+        }
     }
 
     private void placeNewPiece(char coluna, int linha, ChessPiece piece) {
