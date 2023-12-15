@@ -44,6 +44,9 @@ public class PartidaXadrez {
         if(!tabuleiro.thereIsAPiece(position)){
             throw new ChessException("Não tem uma peça na posição inicial");
         }
+        if(!tabuleiro.piece(position).isThereAnyPossibleMove()){
+            throw new ChessException("Essa peça não pode se mover");
+        }
     }
 
     private void placeNewPiece(char coluna, int linha, ChessPiece piece) {

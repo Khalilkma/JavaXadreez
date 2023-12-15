@@ -3,7 +3,7 @@ package Chess;
 import JogoTabuleiro.Piece;
 import JogoTabuleiro.Tabuleiro;
 
-public class ChessPiece extends Piece {
+public abstract class ChessPiece extends Piece {
 
     private Cor cor;
 
