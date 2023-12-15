@@ -23,6 +23,9 @@ public class programa {
                 System.out.print("Source: ");
                 ChessPosition source = UI.readChessPositon(sc);
 
+                boolean[][] possibleMoves = partidaXadrez.possibleMoves(source);
+                UI.clearScreen();
+                UI.printTabuleiro(partidaXadrez.getPieces(), possibleMoves);
                 System.out.println();
                 System.out.print("Target: ");
                 ChessPosition target = UI.readChessPositon(sc);
