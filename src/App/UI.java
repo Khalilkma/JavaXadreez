@@ -3,6 +3,7 @@ package App;
 import Chess.ChessPiece;
 import Chess.ChessPosition;
 import Chess.Cor;
+import Chess.PartidaXadrez;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -43,6 +44,13 @@ public class UI {
         catch (RuntimeException e){
             throw new InputMismatchException("Erro lendo a posição. Posições válidas vão de a1 até h8.");
         }
+    }
+
+    public static void printMatch(PartidaXadrez partidaXadrez) {
+        printTabuleiro(partidaXadrez.getPieces());
+        System.out.println();
+        System.out.println("Turno: " + partidaXadrez.getTurno());
+        System.out.println("Aguardando jogador: " + partidaXadrez.getJogadorAtual());
     }
 
     public static  void printTabuleiro(ChessPiece[][] pieces){

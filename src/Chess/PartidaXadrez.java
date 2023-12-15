@@ -8,11 +8,23 @@ import JogoTabuleiro.Tabuleiro;
 
 public class PartidaXadrez {
 
+    private int turno;
+    private Cor jogadorAtual;
     private Tabuleiro tabuleiro;
 
     public PartidaXadrez() {
         tabuleiro = new Tabuleiro(8, 8);
+        turno = 1;
+        jogadorAtual = Cor.BRANCO;
         setupInicial();
+    }
+
+    public int getTurno() {
+        return turno;
+    }
+
+    public Cor getJogadorAtual() {
+        return jogadorAtual;
     }
 
     public ChessPiece[][] getPieces() {
@@ -37,6 +49,7 @@ public class PartidaXadrez {
         validateSourcePosition(source);
         validateTargetPosition(source, target);
         Piece capturedPiece = makeMove(source, target);
+        nextTurn();
         return (ChessPiece) capturedPiece;
     }
 
@@ -51,6 +64,9 @@ public class PartidaXadrez {
         if(!tabuleiro.thereIsAPiece(position)){
             throw new ChessException("Não tem uma peça na posição inicial");
         }
+        if(jogadorAtual != ((ChessPiece)tabuleiro.piece(position)).getCor()) {
+            throw new ChessException("A peça escolhida não é sua");
+        }
         if(!tabuleiro.piece(position).isThereAnyPossibleMove()){
             throw new ChessException("Essa peça não pode se mover");
         }
@@ -60,6 +76,11 @@ public class PartidaXadrez {
         if(!tabuleiro.piece(source).possibleMove(target)) {
             throw new ChessException("A peça escolhida não pode se mover para essa casa");
         }
+    }
+
+    private void nextTurn() {
+        turno++;
+        jogadorAtual = (jogadorAtual == Cor.BRANCO) ? Cor.PRETO : Cor.BRANCO;
     }
 
     private void placeNewPiece(char coluna, int linha, ChessPiece piece) {
