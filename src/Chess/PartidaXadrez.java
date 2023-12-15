@@ -29,6 +29,7 @@ public class PartidaXadrez {
         Position source = sourcePosition.toPosition();
         Position target = targetPosition.toPosition();
         validateSourcePosition(source);
+        validateTargetPosition(source, target);
         Piece capturedPiece = makeMove(source, target);
         return (ChessPiece) capturedPiece;
     }
@@ -46,6 +47,12 @@ public class PartidaXadrez {
         }
         if(!tabuleiro.piece(position).isThereAnyPossibleMove()){
             throw new ChessException("Essa peça não pode se mover");
+        }
+    }
+
+    private void validateTargetPosition(Position source, Position target) {
+        if(!tabuleiro.piece(source).possibleMove(target)) {
+            throw new ChessException("A peça escolhida não pode se mover para essa casa");
         }
     }
 

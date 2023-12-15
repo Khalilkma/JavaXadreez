@@ -1,6 +1,7 @@
 package Chess;
 
 import JogoTabuleiro.Piece;
+import JogoTabuleiro.Position;
 import JogoTabuleiro.Tabuleiro;
 
 public abstract class ChessPiece extends Piece {
@@ -14,5 +15,10 @@ public abstract class ChessPiece extends Piece {
 
     public Cor getCor() {
         return cor;
+    }
+
+    protected boolean isThereOpponentPiece(Position position){
+        ChessPiece p = (ChessPiece)getTabuleiro().piece(position);
+        return p != null && p.getCor() != cor;
     }
 }

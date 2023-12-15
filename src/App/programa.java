@@ -28,12 +28,10 @@ public class programa {
                 ChessPosition target = UI.readChessPositon(sc);
 
                 ChessPiece capturedPiece = partidaXadrez.performChessMove(source, target);
-            }
-            catch (ChessException e) {
+            } catch (ChessException e) {
                 System.out.println(e.getMessage());
                 sc.nextLine();
-            }
-            catch (InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 System.out.println(e.getMessage());
                 sc.nextLine();
             }
