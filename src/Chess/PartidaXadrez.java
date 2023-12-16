@@ -16,6 +16,7 @@ public class PartidaXadrez {
     private Cor jogadorAtual;
     private Tabuleiro tabuleiro;
     private boolean check;
+    private boolean checkMate;
 
     private List<Piece> piecesOnTheBoard = new ArrayList<>();
     private List<Piece> capturedPieces = new ArrayList<>();
@@ -38,6 +39,10 @@ public class PartidaXadrez {
 
     public boolean getCheck() {
         return check;
+    }
+
+    public boolean getCheckMate() {
+        return checkMate;
     }
 
     public ChessPiece[][] getPieces() {
@@ -70,7 +75,11 @@ public class PartidaXadrez {
 
         check = (testeCheck(opponent(jogadorAtual))) ? true : false;
 
-        nextTurn();
+        if(testCheckMate(opponent(jogadorAtual))) {
+            checkMate = true;
+        } else {
+            nextTurn();
+        }
         return (ChessPiece) capturedPiece;
     }
 
@@ -146,25 +155,42 @@ public class PartidaXadrez {
         return false;
     }
 
+    private boolean testCheckMate(Cor cor) {
+        if(!testeCheck(cor)) {
+            return false;
+        }
+        List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getCor() == cor).collect(Collectors.toList());
+        for(Piece p : list) {
+            boolean[][] mat = p.possibleMoves();
+            for(int i = 0; i < tabuleiro.getLinhas(); i++){
+                for(int j = 0; j < tabuleiro.getColunas(); j++) {
+                    if(mat[i][j]) {
+                        Position source = ((ChessPiece)p).getChessPosition().toPosition();
+                        Position target = new Position(i, j);
+                        Piece capturedPiece = makeMove(source, target);
+                        boolean testCheck = testeCheck(cor);
+                        undoMove(source, target, capturedPiece);
+                        if(!testCheck) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
     private void placeNewPiece(char coluna, int linha, ChessPiece piece) {
         tabuleiro.placePiece(piece, new ChessPosition(coluna, linha).toPosition());
         piecesOnTheBoard.add(piece);
     }
 
     private void setupInicial(){
-        placeNewPiece('c', 1, new Torre(tabuleiro, Cor.BRANCO));
-        placeNewPiece('c', 2, new Torre(tabuleiro, Cor.BRANCO));
-        placeNewPiece('d', 2, new Torre(tabuleiro, Cor.BRANCO));
-        placeNewPiece('e', 2, new Torre(tabuleiro, Cor.BRANCO));
-        placeNewPiece('e', 1, new Torre(tabuleiro, Cor.BRANCO));
-        placeNewPiece('d', 1, new Rei(tabuleiro, Cor.BRANCO));
+        placeNewPiece('h', 7, new Torre(tabuleiro, Cor.BRANCO));
+        placeNewPiece('d', 1, new Torre(tabuleiro, Cor.BRANCO));
+        placeNewPiece('e', 1, new Rei(tabuleiro, Cor.BRANCO));
 
-        placeNewPiece('c', 7, new Torre(tabuleiro, Cor.PRETO));
-        placeNewPiece('c', 8, new Torre(tabuleiro, Cor.PRETO));
-        placeNewPiece('d', 7, new Torre(tabuleiro, Cor.PRETO));
-        placeNewPiece('e', 7, new Torre(tabuleiro, Cor.PRETO));
-        placeNewPiece('e', 8, new Torre(tabuleiro, Cor.PRETO));
-        placeNewPiece('d', 8, new Rei(tabuleiro, Cor.PRETO));
+        placeNewPiece('b', 8, new Torre(tabuleiro, Cor.PRETO));
+        placeNewPiece('a', 8, new Rei(tabuleiro, Cor.PRETO));
 
     }
 }
