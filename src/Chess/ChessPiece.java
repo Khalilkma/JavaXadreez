@@ -7,6 +7,7 @@ import JogoTabuleiro.Tabuleiro;
 public abstract class ChessPiece extends Piece {
 
     private Cor cor;
+    private int moveCount;
 
     public ChessPiece(Tabuleiro tabuleiro, Cor cor) {
         super(tabuleiro);
@@ -15,6 +16,17 @@ public abstract class ChessPiece extends Piece {
 
     public Cor getCor() {
         return cor;
+    }
+
+    public int getMoveCount() {
+        return moveCount;
+    }
+
+    public void increaseMoveCount(){
+        moveCount++;
+    }
+    public void decreaseMoveCount(){
+        moveCount--;
     }
 
     public ChessPosition getChessPosition() {

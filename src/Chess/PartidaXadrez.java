@@ -2,6 +2,7 @@ package Chess;
 
 import Chess.piece.Rei;
 import Chess.piece.Torre;
+import Chess.piece.pawn;
 import JogoTabuleiro.Piece;
 import JogoTabuleiro.Position;
 import JogoTabuleiro.Tabuleiro;
@@ -84,7 +85,8 @@ public class PartidaXadrez {
     }
 
     private Piece makeMove(Position source, Position target) {
-        Piece p = tabuleiro.removePiece(source);
+        ChessPiece p = (ChessPiece) tabuleiro.removePiece(source);
+        p.increaseMoveCount();
         Piece capturedPiece = tabuleiro.removePiece(target);
         tabuleiro.placePiece(p, target);
 
@@ -96,7 +98,8 @@ public class PartidaXadrez {
     }
 
     private void undoMove(Position source, Position target, Piece capturedPiece){
-        Piece p = tabuleiro.removePiece(target);
+        ChessPiece p = (ChessPiece) tabuleiro.removePiece(target);
+        p.decreaseMoveCount();
         tabuleiro.placePiece(p, source);
 
         if (capturedPiece != null) {
@@ -185,12 +188,29 @@ public class PartidaXadrez {
     }
 
     private void setupInicial(){
-        placeNewPiece('h', 7, new Torre(tabuleiro, Cor.BRANCO));
-        placeNewPiece('d', 1, new Torre(tabuleiro, Cor.BRANCO));
+        placeNewPiece('a', 1, new Torre(tabuleiro, Cor.BRANCO));
         placeNewPiece('e', 1, new Rei(tabuleiro, Cor.BRANCO));
+        placeNewPiece('h', 1, new Torre(tabuleiro, Cor.BRANCO));
+        placeNewPiece('a', 2, new pawn(tabuleiro, Cor.BRANCO));
+        placeNewPiece('b', 2, new pawn(tabuleiro, Cor.BRANCO));
+        placeNewPiece('c', 2, new pawn(tabuleiro, Cor.BRANCO));
+        placeNewPiece('d', 2, new pawn(tabuleiro, Cor.BRANCO));
+        placeNewPiece('e', 2, new pawn(tabuleiro, Cor.BRANCO));
+        placeNewPiece('f', 2, new pawn(tabuleiro, Cor.BRANCO));
+        placeNewPiece('g', 2, new pawn(tabuleiro, Cor.BRANCO));
+        placeNewPiece('h', 2, new pawn(tabuleiro, Cor.BRANCO));
 
-        placeNewPiece('b', 8, new Torre(tabuleiro, Cor.PRETO));
-        placeNewPiece('a', 8, new Rei(tabuleiro, Cor.PRETO));
+        placeNewPiece('a', 8, new Torre(tabuleiro, Cor.PRETO));
+        placeNewPiece('e', 8, new Rei(tabuleiro, Cor.PRETO));
+        placeNewPiece('h', 8, new Torre(tabuleiro, Cor.PRETO));
+        placeNewPiece('a', 7, new pawn(tabuleiro, Cor.PRETO));
+        placeNewPiece('b', 7, new pawn(tabuleiro, Cor.PRETO));
+        placeNewPiece('c', 7, new pawn(tabuleiro, Cor.PRETO));
+        placeNewPiece('d', 7, new pawn(tabuleiro, Cor.PRETO));
+        placeNewPiece('e', 7, new pawn(tabuleiro, Cor.PRETO));
+        placeNewPiece('f', 7, new pawn(tabuleiro, Cor.PRETO));
+        placeNewPiece('g', 7, new pawn(tabuleiro, Cor.PRETO));
+        placeNewPiece('h', 7, new pawn(tabuleiro, Cor.PRETO));
 
     }
 }
