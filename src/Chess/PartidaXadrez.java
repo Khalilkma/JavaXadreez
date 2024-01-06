@@ -1,8 +1,6 @@
 package Chess;
 
-import Chess.piece.Rei;
-import Chess.piece.Torre;
-import Chess.piece.pawn;
+import Chess.piece.*;
 import JogoTabuleiro.Piece;
 import JogoTabuleiro.Position;
 import JogoTabuleiro.Tabuleiro;
@@ -189,7 +187,11 @@ public class PartidaXadrez {
 
     private void setupInicial(){
         placeNewPiece('a', 1, new Torre(tabuleiro, Cor.BRANCO));
+        placeNewPiece('b', 1, new Knight(tabuleiro, Cor.BRANCO));
+        placeNewPiece('c', 1, new Bishop(tabuleiro, Cor.BRANCO));
         placeNewPiece('e', 1, new Rei(tabuleiro, Cor.BRANCO));
+        placeNewPiece('f', 1, new Bishop(tabuleiro, Cor.BRANCO));
+        placeNewPiece('g', 1, new Knight(tabuleiro, Cor.BRANCO));
         placeNewPiece('h', 1, new Torre(tabuleiro, Cor.BRANCO));
         placeNewPiece('a', 2, new pawn(tabuleiro, Cor.BRANCO));
         placeNewPiece('b', 2, new pawn(tabuleiro, Cor.BRANCO));
@@ -201,7 +203,11 @@ public class PartidaXadrez {
         placeNewPiece('h', 2, new pawn(tabuleiro, Cor.BRANCO));
 
         placeNewPiece('a', 8, new Torre(tabuleiro, Cor.PRETO));
+        placeNewPiece('b', 8, new Knight(tabuleiro, Cor.PRETO));
+        placeNewPiece('c', 8, new Bishop(tabuleiro, Cor.PRETO));
         placeNewPiece('e', 8, new Rei(tabuleiro, Cor.PRETO));
+        placeNewPiece('f', 8, new Bishop(tabuleiro, Cor.PRETO));
+        placeNewPiece('g', 8, new Knight(tabuleiro, Cor.PRETO));
         placeNewPiece('h', 8, new Torre(tabuleiro, Cor.PRETO));
         placeNewPiece('a', 7, new pawn(tabuleiro, Cor.PRETO));
         placeNewPiece('b', 7, new pawn(tabuleiro, Cor.PRETO));
