@@ -189,6 +189,7 @@ public class PartidaXadrez {
         placeNewPiece('a', 1, new Torre(tabuleiro, Cor.BRANCO));
         placeNewPiece('b', 1, new Knight(tabuleiro, Cor.BRANCO));
         placeNewPiece('c', 1, new Bishop(tabuleiro, Cor.BRANCO));
+        placeNewPiece('d', 1, new Queen(tabuleiro, Cor.BRANCO));
         placeNewPiece('e', 1, new Rei(tabuleiro, Cor.BRANCO));
         placeNewPiece('f', 1, new Bishop(tabuleiro, Cor.BRANCO));
         placeNewPiece('g', 1, new Knight(tabuleiro, Cor.BRANCO));
@@ -205,6 +206,7 @@ public class PartidaXadrez {
         placeNewPiece('a', 8, new Torre(tabuleiro, Cor.PRETO));
         placeNewPiece('b', 8, new Knight(tabuleiro, Cor.PRETO));
         placeNewPiece('c', 8, new Bishop(tabuleiro, Cor.PRETO));
+        placeNewPiece('d', 8, new Queen(tabuleiro, Cor.PRETO));
         placeNewPiece('e', 8, new Rei(tabuleiro, Cor.PRETO));
         placeNewPiece('f', 8, new Bishop(tabuleiro, Cor.PRETO));
         placeNewPiece('g', 8, new Knight(tabuleiro, Cor.PRETO));
