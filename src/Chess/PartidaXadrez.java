@@ -92,6 +92,25 @@ public class PartidaXadrez {
             piecesOnTheBoard.remove(capturedPiece);
             capturedPieces.add(capturedPiece);
         }
+
+        // rock pequeno
+        if(p instanceof Rei && target.getColuna() == source.getColuna() + 2) {
+            Position sourceT = new Position(source.getLinha(), source.getColuna() + 3);
+            Position targetT = new Position(source.getLinha(), source.getColuna() + 1);
+            ChessPiece rook = (ChessPiece)tabuleiro.removePiece(sourceT);
+            tabuleiro.placePiece(rook, targetT);
+            rook.increaseMoveCount();
+        }
+
+        // rock grande
+        if(p instanceof Rei && target.getColuna() == source.getColuna() - 2) {
+            Position sourceT = new Position(source.getLinha(), source.getColuna() - 4);
+            Position targetT = new Position(source.getLinha(), source.getColuna() - 1);
+            ChessPiece rook = (ChessPiece)tabuleiro.removePiece(sourceT);
+            tabuleiro.placePiece(rook, targetT);
+            rook.increaseMoveCount();
+        }
+
         return capturedPiece;
     }
 
@@ -105,6 +124,25 @@ public class PartidaXadrez {
             capturedPieces.remove(capturedPiece);
             piecesOnTheBoard.add(capturedPiece);
         }
+
+        // rock pequeno
+        if(p instanceof Rei && target.getColuna() == source.getColuna() + 2) {
+            Position sourceT = new Position(source.getLinha(), source.getColuna() + 3);
+            Position targetT = new Position(source.getLinha(), source.getColuna() + 1);
+            ChessPiece rook = (ChessPiece)tabuleiro.removePiece(targetT);
+            tabuleiro.placePiece(rook, sourceT);
+            rook.decreaseMoveCount();
+        }
+
+        // rock grande
+        if(p instanceof Rei && target.getColuna() == source.getColuna() - 2) {
+            Position sourceT = new Position(source.getLinha(), source.getColuna() - 4);
+            Position targetT = new Position(source.getLinha(), source.getColuna() - 1);
+            ChessPiece rook = (ChessPiece)tabuleiro.removePiece(targetT);
+            tabuleiro.placePiece(rook, sourceT);
+            rook.decreaseMoveCount();
+        }
+
     }
 
     private void validateSourcePosition(Position position) {
@@ -190,7 +228,7 @@ public class PartidaXadrez {
         placeNewPiece('b', 1, new Knight(tabuleiro, Cor.BRANCO));
         placeNewPiece('c', 1, new Bishop(tabuleiro, Cor.BRANCO));
         placeNewPiece('d', 1, new Queen(tabuleiro, Cor.BRANCO));
-        placeNewPiece('e', 1, new Rei(tabuleiro, Cor.BRANCO));
+        placeNewPiece('e', 1, new Rei(tabuleiro, Cor.BRANCO, this));
         placeNewPiece('f', 1, new Bishop(tabuleiro, Cor.BRANCO));
         placeNewPiece('g', 1, new Knight(tabuleiro, Cor.BRANCO));
         placeNewPiece('h', 1, new Torre(tabuleiro, Cor.BRANCO));
@@ -207,7 +245,7 @@ public class PartidaXadrez {
         placeNewPiece('b', 8, new Knight(tabuleiro, Cor.PRETO));
         placeNewPiece('c', 8, new Bishop(tabuleiro, Cor.PRETO));
         placeNewPiece('d', 8, new Queen(tabuleiro, Cor.PRETO));
-        placeNewPiece('e', 8, new Rei(tabuleiro, Cor.PRETO));
+        placeNewPiece('e', 8, new Rei(tabuleiro, Cor.PRETO, this));
         placeNewPiece('f', 8, new Bishop(tabuleiro, Cor.PRETO));
         placeNewPiece('g', 8, new Knight(tabuleiro, Cor.PRETO));
         placeNewPiece('h', 8, new Torre(tabuleiro, Cor.PRETO));

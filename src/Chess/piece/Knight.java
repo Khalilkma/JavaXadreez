@@ -2,10 +2,14 @@ package Chess.piece;
 
 import Chess.ChessPiece;
 import Chess.Cor;
+import Chess.PartidaXadrez;
 import JogoTabuleiro.Position;
 import JogoTabuleiro.Tabuleiro;
 
 public class Knight extends ChessPiece {
+
+    private PartidaXadrez partidaXadrez;
+
     public Knight(Tabuleiro tabuleiro, Cor cor) {
         super(tabuleiro, cor);
     }
@@ -65,7 +69,6 @@ public class Knight extends ChessPiece {
         if (getTabuleiro().positionExists(p) && canMove(p)) {
             mat[p.getLinha()][p.getColuna()] = true;
         }
-
         return mat;
     }
 }
