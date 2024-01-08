@@ -2,13 +2,17 @@ package Chess.piece;
 
 import Chess.ChessPiece;
 import Chess.Cor;
+import Chess.PartidaXadrez;
 import JogoTabuleiro.Position;
 import JogoTabuleiro.Tabuleiro;
 
 public class pawn extends ChessPiece {
 
-    public pawn(Tabuleiro tabuleiro, Cor cor) {
+    private PartidaXadrez partidaXadrez;
+
+    public pawn(Tabuleiro tabuleiro, Cor cor, PartidaXadrez partidaXadrez) {
         super(tabuleiro, cor);
+        this.partidaXadrez = partidaXadrez;
     }
 
     @Override
@@ -35,6 +39,18 @@ public class pawn extends ChessPiece {
             if(getTabuleiro().positionExists(p) && isThereOpponentPiece(p)) {
                 mat[p.getLinha()][p.getColuna()] = true;
             }
+
+            //en passant white
+            if(position.getLinha() == 3){
+                Position left = new Position(position.getLinha(), position.getColuna() - 1);
+                if(getTabuleiro().positionExists(left) && isThereOpponentPiece(left) && getTabuleiro().piece(left) == partidaXadrez.getEnPassantVulnerable()) {
+                    mat[left.getLinha() - 1][left.getColuna()] = true;
+                }
+                Position right = new Position(position.getLinha(), position.getColuna() + 1);
+                if(getTabuleiro().positionExists(right) && isThereOpponentPiece(right) && getTabuleiro().piece(right) == partidaXadrez.getEnPassantVulnerable()) {
+                    mat[right.getLinha() - 1][right.getColuna()] = true;
+                }
+            }
         }
         else {
             p.setValues(position.getLinha() + 1, position.getColuna());
@@ -53,6 +69,18 @@ public class pawn extends ChessPiece {
             p.setValues(position.getLinha() + 1, position.getColuna() + 1);
             if(getTabuleiro().positionExists(p) && isThereOpponentPiece(p)) {
                 mat[p.getLinha()][p.getColuna()] = true;
+            }
+
+            //en passant black
+            if(position.getLinha() == 4){
+                Position left = new Position(position.getLinha(), position.getColuna() - 1);
+                if(getTabuleiro().positionExists(left) && isThereOpponentPiece(left) && getTabuleiro().piece(left) == partidaXadrez.getEnPassantVulnerable()) {
+                    mat[left.getLinha() + 1][left.getColuna()] = true;
+                }
+                Position right = new Position(position.getLinha(), position.getColuna() + 1);
+                if(getTabuleiro().positionExists(right) && isThereOpponentPiece(right) && getTabuleiro().piece(right) == partidaXadrez.getEnPassantVulnerable()) {
+                    mat[right.getLinha() + 1][right.getColuna()] = true;
+                }
             }
         }
         return mat;
