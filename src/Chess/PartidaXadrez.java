@@ -6,7 +6,6 @@ import JogoTabuleiro.Position;
 import JogoTabuleiro.Tabuleiro;
 
 import java.awt.*;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -118,7 +117,7 @@ public class PartidaXadrez {
             throw new IllegalStateException("Não tem nenhuma peça para ser promovida");
         }
         if (!type.equals("B") && !type.equals("C") && !type.equals("Q") && !type.equals("T")) {
-            throw new InvalidParameterException("Tipo inválido para promoção");
+            return promoted;
         }
 
         Position pos = promoted.getChessPosition().toPosition();

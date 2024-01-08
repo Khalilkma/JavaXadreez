@@ -40,7 +40,11 @@ public class programa {
                 }
                 if(partidaXadrez.getPromoted() != null) {
                     System.out.print("Escolha a peça para promover (B/C/Q/T): ");
-                    String type = sc.nextLine();
+                    String type = sc.nextLine().toUpperCase();
+                    while (!type.equals("B") && !type.equals("C") && !type.equals("Q") && !type.equals("T")) {
+                        System.out.print("Valor inválido! Escolha a peça para promover (B/C/Q/T): ");
+                        type = sc.nextLine().toUpperCase();
+                    }
                     partidaXadrez.replacePromotedPiece(type);
                 }
 
