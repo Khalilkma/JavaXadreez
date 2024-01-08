@@ -6,6 +6,7 @@ import JogoTabuleiro.Position;
 import JogoTabuleiro.Tabuleiro;
 
 import java.awt.*;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ public class PartidaXadrez {
     private boolean check;
     private boolean checkMate;
     private ChessPiece enPassantVulnerable;
+    private ChessPiece promoted;
 
     private List<Piece> piecesOnTheBoard = new ArrayList<>();
     private List<Piece> capturedPieces = new ArrayList<>();
@@ -50,6 +52,10 @@ public class PartidaXadrez {
         return enPassantVulnerable;
     }
 
+    public ChessPiece getPromoted() {
+        return promoted;
+    }
+
     public ChessPiece[][] getPieces() {
         ChessPiece[][] mat = new ChessPiece[tabuleiro.getLinhas()][tabuleiro.getColunas()];
         for (int i = 0; i < tabuleiro.getLinhas(); i++) {
@@ -73,23 +79,32 @@ public class PartidaXadrez {
         validateTargetPosition(source, target);
         Piece capturedPiece = makeMove(source, target);
 
-        if(testeCheck(jogadorAtual)) {
+        if (testeCheck(jogadorAtual)) {
             undoMove(source, target, capturedPiece);
             throw new ChessException("Você não pode se colocar em check");
         }
 
-        ChessPiece movedPiece = (ChessPiece)tabuleiro.piece(target);
+        ChessPiece movedPiece = (ChessPiece) tabuleiro.piece(target);
+
+        // promoção
+        promoted = null;
+        if (movedPiece instanceof pawn) {
+            if ((movedPiece.getCor() == Cor.BRANCO && target.getLinha() == 0) || (movedPiece.getCor() == Cor.PRETO && target.getLinha() == 7)) {
+                promoted = (ChessPiece)tabuleiro.piece(target);
+                promoted = replacePromotedPiece("Q");
+            }
+        }
 
         check = (testeCheck(opponent(jogadorAtual))) ? true : false;
 
-        if(testCheckMate(opponent(jogadorAtual))) {
+        if (testCheckMate(opponent(jogadorAtual))) {
             checkMate = true;
         } else {
             nextTurn();
         }
 
         // en passant
-        if(movedPiece instanceof pawn && (target.getLinha() == source.getLinha() - 2 || target.getLinha() == source.getLinha() + 2)) {
+        if (movedPiece instanceof pawn && (target.getLinha() == source.getLinha() - 2 || target.getLinha() == source.getLinha() + 2)) {
             enPassantVulnerable = movedPiece;
         } else {
             enPassantVulnerable = null;
@@ -97,6 +112,34 @@ public class PartidaXadrez {
 
         return (ChessPiece) capturedPiece;
     }
+
+    public ChessPiece replacePromotedPiece(String type) {
+        if (promoted == null) {
+            throw new IllegalStateException("Não tem nenhuma peça para ser promovida");
+        }
+        if (!type.equals("B") && !type.equals("C") && !type.equals("Q") && !type.equals("T")) {
+            throw new InvalidParameterException("Tipo inválido para promoção");
+        }
+
+        Position pos = promoted.getChessPosition().toPosition();
+        Piece p = tabuleiro.removePiece(pos);
+        piecesOnTheBoard.remove(p);
+
+        ChessPiece newPiece = newPiece(type, promoted.getCor());
+        tabuleiro.placePiece(newPiece, pos);
+        piecesOnTheBoard.add(newPiece);
+
+        return newPiece;
+    }
+
+    private ChessPiece newPiece(String type, Cor cor) {
+        if(type.equals("B")) return new Bishop(tabuleiro, cor);
+        if(type.equals("C")) return new Knight(tabuleiro, cor);
+        if(type.equals("Q")) return new Queen(tabuleiro, cor);
+        return new Torre(tabuleiro, cor);
+    }
+
+
 
     private Piece makeMove(Position source, Position target) {
         ChessPiece p = (ChessPiece) tabuleiro.removePiece(source);
